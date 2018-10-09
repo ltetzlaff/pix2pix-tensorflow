@@ -73,19 +73,19 @@ def main():
     cmd = sys.argv[1:]
 
     # check if nvidia-docker or docker are on path
-    docker_path = which("nvidia-docker")
-    if docker_path is None:
-        docker_path = which("docker")
+    # docker_path = which("nvidia-docker")
+    # if docker_path is None:
+    #     docker_path = which("docker")
 
-    if docker_path is None:
-        raise Exception("docker not found")
+    # if docker_path is None:
+    #     raise Exception("docker not found")
 
     docker_args = [
         "--rm",
         "--volume",
-        "/:/host",
-        "--workdir",
-        "/host" + os.getcwd(),
+        "x:/Workspace:/host",
+        #"--workdir",
+        #"/host" + os.getcwd(),
         "--env",
         "PYTHONUNBUFFERED=x",
         "--env",
@@ -100,10 +100,12 @@ def main():
         if arg.startswith("/"):
             cmd[i] = "/host" + arg
 
-    args = [docker_path, "run"] + docker_args + ["affinelayer/pix2pix-tensorflow:v3"] + cmd
+    #args = [docker_path, "run"] + docker_args + ["affinelayer/pix2pix-tensorflow:v3"] + cmd
+    args = ["docker", "run"] + docker_args + ["lt/pix2pix-tensorflow"] + cmd
 
     if not os.access("/var/run/docker.sock", os.R_OK):
-        args = ["sudo"] + args
+        #args = ["sudo"] + args
+        args = args
 
     print("running", " ".join(shlex.quote(a) for a in args))
     os.execvp(args[0], args)
