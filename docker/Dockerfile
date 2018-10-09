@@ -120,7 +120,8 @@ RUN pip install \
     rsa==3.4.2 \
     six==1.10.0 \
     uritemplate==3.0.0 \
-    tensorflow-gpu==1.4.1
+    tensorflow==1.4.1
+    #tensorflow-gpu==1.4.1
 
 # stuff for edges
 RUN pip install pip==9.0.3
